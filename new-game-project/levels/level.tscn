@@ -1,4 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://bwcfww0n68buj"]
+[gd_scene load_steps=8 format=3 uid="uid://bwcfww0n68buj"]
+
+[ext_resource type="PackedScene" uid="uid://cxnhmgd6nak3d" path="res://Player/player.tscn" id="1_80vhd"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_umreq"]
+sky_top_color = Color(0.35000002, 0.4908334, 1, 1)
+sky_horizon_color = Color(0.6963154, 0.7237737, 0.84206533, 1)
+ground_horizon_color = Color(0.6963154, 0.7237737, 0.84206533, 1)
+
+[sub_resource type="Sky" id="Sky_80vhd"]
+sky_material = SubResource("ProceduralSkyMaterial_umreq")
+
+[sub_resource type="Environment" id="Environment_hjsbj"]
+background_mode = 2
+sky = SubResource("Sky_80vhd")
+tonemap_mode = 2
+glow_enabled = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yy828"]
 albedo_color = Color(0.45, 0.285, 0, 1)
@@ -10,6 +26,15 @@ albedo_color = Color(0, 1.7409402, 9.014493, 1)
 albedo_color = Color(0.96612537, 13.50434, 0, 1)
 
 [node name="level" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.45982784, 0.888008, 0, -0.888008, 0.45982784, 0, 12.767386, 4.9112964)
+light_color = Color(1, 0.90000004, 0, 1)
+light_angular_distance = 33.4
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_hjsbj")
 
 [node name="floor" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
@@ -23,8 +48,14 @@ use_collision = true
 size = Vector3(2, 0.5, 2)
 material = SubResource("StandardMaterial3D_umreq")
 
+[node name="Player" parent="launchPad" instance=ExtResource("1_80vhd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.61721957, 0)
+
 [node name="landingPad" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0.2, 0)
 use_collision = true
 size = Vector3(2, 0.5, 2)
 material = SubResource("StandardMaterial3D_80vhd")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.9396926, 0.34202012, 0, -0.34202012, 0.9396926, 0, 5.3, 7.275)
