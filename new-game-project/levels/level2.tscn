@@ -29,7 +29,7 @@ metallic_specular = 1.0
 albedo_color = Color(0, 1.7409402, 9.014493, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_80vhd"]
-albedo_color = Color(0.96612537, 13.50434, 0, 1)
+albedo_color = Color(1.5264326, 18.892157, 0, 1)
 
 [node name="level" type="Node3D"]
 
