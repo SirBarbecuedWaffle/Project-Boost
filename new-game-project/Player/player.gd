@@ -9,6 +9,8 @@ var transitioning:=false
 @onready var main_thruster: GPUParticles3D = $mainThruster
 @onready var right_thruster: GPUParticles3D = $rightThruster
 @onready var left_thruster: GPUParticles3D = $leftThruster
+@onready var explosion_particles: GPUParticles3D = $ExplosionParticles
+@onready var success_particles: GPUParticles3D = $SuccessParticles
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -52,11 +54,13 @@ func _on_body_entered(body: Node) -> void:
 
 func complete_level(next_level_file)->void:
 	transitioning=true
+	success_particles.emitting=true
 	success.play()
 	await get_tree().create_timer(1.0).timeout
 	get_tree().change_scene_to_file(next_level_file)
 	
 func crash_sequence()->void:
+	explosion_particles.emitting=true
 	transitioning=true
 	explode.play()
 	print("KABOOM")

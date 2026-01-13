@@ -1,10 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://cxnhmgd6nak3d"]
+[gd_scene load_steps=11 format=3 uid="uid://cxnhmgd6nak3d"]
 
 [ext_resource type="Script" uid="uid://dvn4q2fd6ablf" path="res://Player/player.gd" id="1_l8h54"]
 [ext_resource type="AudioStream" uid="uid://ce2jallk2qqrf" path="res://audio/SFX - Main engine thrust.ogg" id="2_4ntmi"]
 [ext_resource type="AudioStream" uid="uid://qqoluajc5md2" path="res://audio/SFX - Death Explosion.ogg" id="2_btcbx"]
 [ext_resource type="AudioStream" uid="uid://dlkj7qskpcmcc" path="res://audio/SFX - Success.ogg" id="2_gwnis"]
 [ext_resource type="PackedScene" uid="uid://g2ksyshewie3" path="res://levels/booster_particles.tscn" id="5_k53q1"]
+[ext_resource type="PackedScene" uid="uid://io1kwqkq8fjd" path="res://particles/explosion_particles.tscn" id="6_fhl08"]
+[ext_resource type="PackedScene" uid="uid://cl67e0w22g27" path="res://particles/success_particles.tscn" id="7_vtle1"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l8h54"]
 albedo_color = Color(1, 0, 0.1833334, 1)
@@ -54,5 +56,11 @@ emitting = false
 [node name="leftThruster" parent="." instance=ExtResource("5_k53q1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, -0.35, 0)
 emitting = false
+
+[node name="ExplosionParticles" parent="." instance=ExtResource("6_fhl08")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.62545204, 0)
+
+[node name="SuccessParticles" parent="." instance=ExtResource("7_vtle1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.49760988, 0)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
