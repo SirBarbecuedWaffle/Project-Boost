@@ -1,0 +1,57 @@
+[gd_scene load_steps=8 format=3 uid="uid://cxnhmgd6nak3d"]
+
+[ext_resource type="Script" uid="uid://dvn4q2fd6ablf" path="res://Player/player.gd" id="1_l8h54"]
+[ext_resource type="AudioStream" uid="uid://ce2jallk2qqrf" path="res://audio/SFX - Main engine thrust.ogg" id="2_4ntmi"]
+[ext_resource type="AudioStream" uid="uid://qqoluajc5md2" path="res://audio/SFX - Death Explosion.ogg" id="2_btcbx"]
+[ext_resource type="AudioStream" uid="uid://dlkj7qskpcmcc" path="res://audio/SFX - Success.ogg" id="2_gwnis"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_gwnis"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_gwnis"]
+
+[sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_gwnis"]
+
+[node name="Player" type="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9165852, 0)
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+contact_monitor = true
+max_contacts_reported = 10
+linear_damp = 1.0
+angular_damp = 3.0
+script = ExtResource("1_l8h54")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65354943, 0)
+shape = SubResource("SphereShape3D_gwnis")
+
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6494646, 0)
+mesh = SubResource("SphereMesh_gwnis")
+skeleton = NodePath("../..")
+
+[node name="success" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_gwnis")
+
+[node name="explode" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_btcbx")
+
+[node name="boost" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_4ntmi")
+autoplay = true
+
+[node name="camera_pivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4878771, 0)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="camera_pivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.3097458, 0)
+shape = SubResource("SeparationRayShape3D_gwnis")
+spring_length = 3.0
+
+[node name="Camera3D" type="Camera3D" parent="camera_pivot/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 0.831033, 0.5562231, 0, -0.5562231, 0.831033, 0, 2.2634869, 3.6804695)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

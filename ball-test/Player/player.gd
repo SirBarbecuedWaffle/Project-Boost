@@ -6,49 +6,47 @@ var transitioning:=false
 @onready var success: AudioStreamPlayer = $success
 @onready var explode: AudioStreamPlayer = $explode
 @onready var boost: AudioStreamPlayer3D = $boost
-@onready var main_thruster: GPUParticles3D = $mainThruster
-@onready var right_thruster: GPUParticles3D = $rightThruster
-@onready var left_thruster: GPUParticles3D = $leftThruster
+@onready var _camera_pivot: Node3D = $camera_pivot
+@export_range(0.0, 1.0) var mouse_sensitivity = 0.01
+@export var tilt_limit = deg_to_rad(75)
+@onready var node_3d: Node3D = $Node3D
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		_camera_pivot.rotation.x -= event.relative.y * mouse_sensitivity
+		_camera_pivot.rotation.x = clampf(_camera_pivot.rotation.x, -tilt_limit, tilt_limit)
+		_camera_pivot.rotation.y += -event.relative.x * mouse_sensitivity
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	main_thruster.emitting=(boost.playing && !transitioning)
 	if !transitioning:
 		if Input.is_action_pressed("boost"):
-			apply_central_force(basis.y*delta*launchForce)
-			if !boost.playing:
-				boost.playing=true
+			apply_central_force(_camera_pivot.global_basis.x*100)
+			apply_central_force(_camera_pivot.global_basis.z*-100)
+			
+			
 		else:
 			if boost.playing:
 				boost.playing=false
 		if Input.is_action_pressed("rot_left"):
-			apply_torque(Vector3(0.0,0.0,delta*turnSpeed))
-			right_thruster.emitting=true
-		else:
-			right_thruster.emitting=false
+			apply_central_force(_camera_pivot.global_basis * Vector3(-1, 0, 0)*50)
 		if Input.is_action_pressed("rot_right"):
-			apply_torque(Vector3(0.0,0.0,delta*-1*turnSpeed))
-			left_thruster.emitting=true
-		else:
-			left_thruster.emitting=false
-	else:
-		right_thruster.emitting=false
-		left_thruster.emitting=false
+			apply_central_force(_camera_pivot.global_basis * Vector3(1, 0, 0)*50)
 
 
 func _on_body_entered(body: Node) -> void:
-	if "goal" in body.get_groups() && !transitioning:
-		if body.file_path!=null:
-			complete_level(body.file_path)
-		else:
-			print("ERROR CODE 002: where tf u tryin to go???")
-	if "obstacle" in body.get_groups() && !transitioning:
-		crash_sequence()
+	#if "goal" in body.get_groups() && !transitioning:
+		#if body.file_path!=null:
+			#complete_level(body.file_path)
+		#else:
+			#print("ERROR CODE 002: where tf u tryin to go???")
+	#if "obstacle" in body.get_groups() && !transitioning:
+		#crash_sequence()
+	pass
 
 func complete_level(next_level_file)->void:
 	transitioning=true
