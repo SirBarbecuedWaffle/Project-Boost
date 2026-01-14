@@ -1,6 +1,6 @@
 extends RigidBody3D
 class_name Player
-@export_range(750,2500) var launchForce:=1000.0
+@export_range(5,25) var launchForce:=1000.0
 @export_range(50,200) var turnSpeed:=100.0
 var transitioning:=false
 @onready var success: AudioStreamPlayer = $success
@@ -10,9 +10,11 @@ var transitioning:=false
 @export_range(0.0, 1.0) var mouse_sensitivity = 0.01
 @export var tilt_limit = deg_to_rad(75)
 @onready var node_3d: Node3D = $Node3D
-
+@onready var spring_arm_3d: SpringArm3D = $camera_pivot/SpringArm3D
+@onready var pause_lab: Label = $Control/pauseLab
+var paused:=false
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion:
+	if event is InputEventMouseMotion && !paused:
 		_camera_pivot.rotation.x -= event.relative.y * mouse_sensitivity
 		_camera_pivot.rotation.x = clampf(_camera_pivot.rotation.x, -tilt_limit, tilt_limit)
 		_camera_pivot.rotation.y += -event.relative.x * mouse_sensitivity
@@ -20,22 +22,39 @@ func _unhandled_input(event: InputEvent) -> void:
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if !transitioning:
-		if Input.is_action_pressed("boost"):
-			apply_central_force(_camera_pivot.global_basis.x*100)
-			apply_central_force(_camera_pivot.global_basis.z*-100)
+	if Input.is_action_just_pressed("esc"):
+		if paused:
+			paused=false
+			Engine.time_scale=1
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		else:
+			paused=true
+			Engine.time_scale=0.0001
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		pause_lab.visible=paused
 			
+	if Input.is_action_pressed("rot_right"):
+		print("scrollUp")
+		if spring_arm_3d.spring_length<8:
+			spring_arm_3d.spring_length+=0.1
+	if Input.is_action_pressed("rot_left"):
+		print("scrollDown")
+		if spring_arm_3d.spring_length>2:
+			spring_arm_3d.spring_length-=0.1
+	if !transitioning:
+		if Input.is_action_just_pressed("boost"):
+			apply_central_force(_camera_pivot.global_basis.get_rotation_quaternion()*Vector3(0,0,-1)*launchForce*delta*1000)
+			print(linear_velocity.y)
 			
 		else:
 			if boost.playing:
 				boost.playing=false
-		if Input.is_action_pressed("rot_left"):
-			apply_central_force(_camera_pivot.global_basis * Vector3(-1, 0, 0)*50)
-		if Input.is_action_pressed("rot_right"):
-			apply_central_force(_camera_pivot.global_basis * Vector3(1, 0, 0)*50)
+		#if Input.is_action_pressed("rot_left"):
+			#apply_central_force(_camera_pivot.global_basis * Vector3(-1, 0, 0)*50)
+		#if Input.is_action_pressed("rot_right"):
+			#apply_central_force(_camera_pivot.global_basis * Vector3(1, 0, 0)*50)
 
 
 func _on_body_entered(body: Node) -> void:

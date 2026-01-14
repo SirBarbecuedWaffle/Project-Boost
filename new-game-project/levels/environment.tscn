@@ -1,0 +1,81 @@
+[gd_scene load_steps=5 format=3 uid="uid://b0rin0bha0jbr"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yy828"]
+albedo_color = Color(0.45, 0.285, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hjsbj"]
+albedo_color = Color(0.45, 0.285, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cwqvt"]
+albedo_color = Color(0.27774334, 0.051506348, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ea3g5"]
+albedo_color = Color(0.20511743, 0.20511743, 0.20511743, 1)
+
+[node name="environment" type="Node3D"]
+
+[node name="floor" type="CSGBox3D" parent="." groups=["obstacle"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
+use_collision = true
+size = Vector3(30, 8, 5)
+material = SubResource("StandardMaterial3D_yy828")
+
+[node name="ceiling1" type="CSGBox3D" parent="." groups=["obstacle"]]
+transform = Transform3D(0.98231995, 0.18720987, 0, -0.18720987, 0.98231995, 0, 0, 0, 1, -9.124756, 10.589936, 0)
+use_collision = true
+size = Vector3(11.750488, 8, 5)
+material = SubResource("StandardMaterial3D_yy828")
+
+[node name="ceiling2" type="CSGBox3D" parent="." groups=["obstacle"]]
+transform = Transform3D(0.9979948, -0.06329568, 0, 0.06329568, 0.9979948, 0, 0, 0, 1, -1.3002763, 10.589936, 0)
+use_collision = true
+size = Vector3(11.750488, 8, 5)
+material = SubResource("StandardMaterial3D_yy828")
+
+[node name="ceiling3" type="CSGBox3D" parent="." groups=["obstacle"]]
+transform = Transform3D(0.96056587, 0.27805236, 0, -0.27805236, 0.96056587, 0, 0, 0, 1, 8.256044, 10.589936, 0)
+use_collision = true
+size = Vector3(11.750488, 8, 5)
+material = SubResource("StandardMaterial3D_yy828")
+
+[node name="LWall" type="CSGBox3D" parent="." groups=["obstacle"]]
+transform = Transform3D(0.9082089, 0.4185171, 0, -0.4185171, 0.9082089, 0, 0, 0, 1, -14.850458, 0.9128611, 0.007379532)
+use_collision = true
+size = Vector3(7.7438965, 16.65332, 5)
+material = SubResource("StandardMaterial3D_hjsbj")
+
+[node name="RWall" type="CSGBox3D" parent="." groups=["obstacle"]]
+transform = Transform3D(0.96507597, -0.26197013, 0, 0.26197013, 0.96507597, 0, 0, 0, 1, 12.827506, 0.4893756, 0.007379532)
+use_collision = true
+size = Vector3(5.7371826, 15.713379, 5)
+material = SubResource("StandardMaterial3D_hjsbj")
+
+[node name="backGround" type="CSGBox3D" parent="." groups=["obstacle"]]
+transform = Transform3D(0.8625402, -0.5059886, 0, 0.5059886, 0.8625402, 0, 0, 0, 1, 12.002441, -1.0451937, -9.150787)
+use_collision = true
+size = Vector3(5.995117, 15.065796, 5)
+material = SubResource("StandardMaterial3D_cwqvt")
+
+[node name="backGround2" type="CSGBox3D" parent="." groups=["obstacle"]]
+transform = Transform3D(0.9470872, 0.32097673, 0, -0.32097673, 0.9470872, 0, 0, 0, 1, -8.2727995, 11.510887, -7.281765)
+use_collision = true
+size = Vector3(5.995117, 15.065796, 5)
+material = SubResource("StandardMaterial3D_cwqvt")
+
+[node name="backGround3" type="CSGBox3D" parent="." groups=["obstacle"]]
+transform = Transform3D(0.99967015, 0.02568847, 0, -0.02568847, 0.99967015, 0, 0, 0, 1, -3.2045314, -3.1438403, -7.281765)
+use_collision = true
+size = Vector3(3.2094727, 15.065796, 5)
+material = SubResource("StandardMaterial3D_ea3g5")
+
+[node name="backGround4" type="CSGBox3D" parent="." groups=["obstacle"]]
+transform = Transform3D(0.99967015, 0.02568847, 0, -0.02568847, 0.99967015, 0, 0, 0, 1, 1.5344951, -3.1438403, -7.281765)
+use_collision = true
+size = Vector3(3.2094727, 15.065796, 5)
+material = SubResource("StandardMaterial3D_ea3g5")
+
+[node name="backGround5" type="CSGBox3D" parent="." groups=["obstacle"]]
+transform = Transform3D(0.99967015, 0.02568847, 0, -0.02568847, 0.99967015, 0, 0, 0, 1, 1.5344951, -3.1438403, -7.281765)
+use_collision = true
+size = Vector3(3.2094727, 15.065796, 5)
+material = SubResource("StandardMaterial3D_ea3g5")

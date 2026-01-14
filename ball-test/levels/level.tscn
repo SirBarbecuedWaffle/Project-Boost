@@ -57,4 +57,22 @@ script = ExtResource("1_hjsbj")
 file_path = "uid://u5lll2hh3g74"
 
 [node name="Player" parent="." instance=ExtResource("1_80vhd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0.8480234, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 11.438371, 0)
+launchForce = 15.0
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+operation = 2
+use_collision = true
+
+[node name="ramp" type="CSGBox3D" parent="CSGCombiner3D" groups=["obstacle"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.896343, 1.5235887, -0.11948395)
+use_collision = true
+size = Vector3(5.8792877, 7.5649414, 19.475113)
+material = SubResource("StandardMaterial3D_yy828")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 13.480402, 4.9599257, 0)
+operation = 2
+radius = 5.0
+height = 20.0
+sides = 64

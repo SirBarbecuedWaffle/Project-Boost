@@ -65,5 +65,8 @@ transform = Transform3D(1, 0, 0, 0, 0.9396927, 0.34202015, 0, -0.34202015, 0.939
 
 [node name="Player" parent="." instance=ExtResource("1_80vhd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0.8480234, 0)
+launchForce = null
+turnSpeed = null
+startingFuel = null
 
 [node name="UI" parent="." instance=ExtResource("4_5mrsh")]

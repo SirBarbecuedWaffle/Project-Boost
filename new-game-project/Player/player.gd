@@ -11,29 +11,38 @@ var transitioning:=false
 @onready var left_thruster: GPUParticles3D = $leftThruster
 @onready var explosion_particles: GPUParticles3D = $ExplosionParticles
 @onready var success_particles: GPUParticles3D = $SuccessParticles
-
+@export var startingFuel:=100
+var UI: CanvasLayer
+var fuel: float:
+	set(new_fuel):
+		fuel=new_fuel
+		UI.update_fuel(int(new_fuel))
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	UI=get_tree().get_first_node_in_group("UI")
+	fuel=startingFuel
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	main_thruster.emitting=(boost.playing && !transitioning)
 	if !transitioning:
-		if Input.is_action_pressed("boost"):
+		if Input.is_action_pressed("boost") && fuel>0:
+			fuel-=0.2
 			apply_central_force(basis.y*delta*launchForce)
 			if !boost.playing:
 				boost.playing=true
 		else:
 			if boost.playing:
 				boost.playing=false
-		if Input.is_action_pressed("rot_left"):
+		if Input.is_action_pressed("rot_left") && fuel>0:
+			fuel-=0.1
 			apply_torque(Vector3(0.0,0.0,delta*turnSpeed))
 			right_thruster.emitting=true
 		else:
 			right_thruster.emitting=false
-		if Input.is_action_pressed("rot_right"):
+		if Input.is_action_pressed("rot_right") && fuel>0:
+			fuel-=0.1
 			apply_torque(Vector3(0.0,0.0,delta*-1*turnSpeed))
 			left_thruster.emitting=true
 		else:

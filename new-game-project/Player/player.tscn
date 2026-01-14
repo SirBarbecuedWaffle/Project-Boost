@@ -1,9 +1,10 @@
-[gd_scene load_steps=20 format=3 uid="uid://cxnhmgd6nak3d"]
+[gd_scene load_steps=12 format=3 uid="uid://cxnhmgd6nak3d"]
 
 [ext_resource type="Script" uid="uid://dvn4q2fd6ablf" path="res://Player/player.gd" id="1_l8h54"]
 [ext_resource type="AudioStream" uid="uid://ce2jallk2qqrf" path="res://audio/SFX - Main engine thrust.ogg" id="2_4ntmi"]
 [ext_resource type="AudioStream" uid="uid://qqoluajc5md2" path="res://audio/SFX - Death Explosion.ogg" id="2_btcbx"]
 [ext_resource type="AudioStream" uid="uid://dlkj7qskpcmcc" path="res://audio/SFX - Success.ogg" id="2_gwnis"]
+[ext_resource type="PackedScene" uid="uid://nn1epjbnb5wl" path="res://Player/rocket.tscn" id="2_od3ui"]
 [ext_resource type="PackedScene" uid="uid://g2ksyshewie3" path="res://levels/booster_particles.tscn" id="5_k53q1"]
 [ext_resource type="PackedScene" uid="uid://io1kwqkq8fjd" path="res://particles/explosion_particles.tscn" id="6_fhl08"]
 [ext_resource type="PackedScene" uid="uid://cl67e0w22g27" path="res://particles/success_particles.tscn" id="7_vtle1"]
@@ -14,49 +15,8 @@ albedo_color = Color(1, 0, 0.1833334, 1)
 [sub_resource type="CylinderMesh" id="CylinderMesh_btcbx"]
 material = SubResource("StandardMaterial3D_l8h54")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vtle1"]
-albedo_color = Color(1, 0.4627451, 0.03137255, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_x3vf3"]
-material = SubResource("StandardMaterial3D_vtle1")
-top_radius = 0.2
-bottom_radius = 0.2
-height = 1.5
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_apopc"]
-albedo_color = Color(0.841792, 0.38522112, 0, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_5htga"]
-material = SubResource("StandardMaterial3D_apopc")
-top_radius = 0.0
-bottom_radius = 0.2
-height = 0.5
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_od3ui"]
-top_radius = 0.2
-bottom_radius = 0.2
-height = 1.5
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_vtle1"]
-top_radius = 0.0
-bottom_radius = 0.2
-height = 0.5
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_00tjw"]
-top_radius = 0.0
-bottom_radius = 0.3
-height = 0.5
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p5o4e"]
-albedo_color = Color(0.88421315, 0.40592238, 7.70092e-07, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_gu6f8"]
-material = SubResource("StandardMaterial3D_p5o4e")
-top_radius = 0.0
-bottom_radius = 0.3
-height = 0.5
-
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_l8h54"]
+radius = 0.4
 
 [node name="Player" type="RigidBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
@@ -74,49 +34,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6494646, 0)
 visible = false
 mesh = SubResource("CylinderMesh_btcbx")
 
-[node name="body" type="MeshInstance3D" parent="."]
+[node name="body" parent="." instance=ExtResource("2_od3ui")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.41434494, 0)
-mesh = SubResource("CylinderMesh_x3vf3")
-
-[node name="cockpit" type="MeshInstance3D" parent="body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0004557, 0)
-mesh = SubResource("CylinderMesh_5htga")
-skeleton = NodePath("../..")
-
-[node name="stage2A" type="MeshInstance3D" parent="body"]
-transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0.32, -0.3, 0)
-mesh = SubResource("CylinderMesh_od3ui")
-skeleton = NodePath("../..")
-
-[node name="cone1" type="MeshInstance3D" parent="body/stage2A"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0004557, 0)
-mesh = SubResource("CylinderMesh_vtle1")
-skeleton = NodePath("../../..")
-
-[node name="cone2" type="MeshInstance3D" parent="body/stage2A"]
-transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, -0.5761159, 0)
-mesh = SubResource("CylinderMesh_00tjw")
-skeleton = NodePath("../../..")
-
-[node name="stage2A2" type="MeshInstance3D" parent="body"]
-transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, -0.32, -0.3, 0)
-mesh = SubResource("CylinderMesh_od3ui")
-skeleton = NodePath("../..")
-
-[node name="cone1" type="MeshInstance3D" parent="body/stage2A2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0004557, 0)
-mesh = SubResource("CylinderMesh_vtle1")
-skeleton = NodePath("../../..")
-
-[node name="cone2" type="MeshInstance3D" parent="body/stage2A2"]
-transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, -0.5761159, 0)
-mesh = SubResource("CylinderMesh_00tjw")
-skeleton = NodePath("../../..")
-
-[node name="cone2" type="MeshInstance3D" parent="body"]
-transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, -0.5445888, 0)
-mesh = SubResource("CylinderMesh_gu6f8")
-skeleton = NodePath("../../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65354943, 0)
@@ -149,5 +68,33 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.62545204, 0)
 
 [node name="SuccessParticles" parent="." instance=ExtResource("7_vtle1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.49760988, 0)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(0.607764, 0.014510615, -0.7939851, -0.7941177, 0.011105444, -0.60766256, 0, 0.9998331, 0.018272625, -0.9479282, 2.3467083, 0)
+light_energy = 1.32
+light_indirect_energy = 0.0
+spot_range = 3.944
+spot_angle = 180.0
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="."]
+transform = Transform3D(0.607764, 0.014510615, -0.7939851, -0.7941177, 0.011105444, -0.60766256, 0, 0.9998331, 0.018272625, 1.1731131, 2.3467083, 0)
+light_energy = 1.32
+light_indirect_energy = 0.0
+spot_range = 3.944
+spot_angle = 180.0
+
+[node name="SpotLight3D3" type="SpotLight3D" parent="."]
+transform = Transform3D(0.607764, 0.014510615, -0.7939851, -0.7941177, 0.011105444, -0.60766256, 0, 0.9998331, 0.018272625, 1.1731131, 2.3467083, 0)
+light_energy = 1.32
+light_indirect_energy = 0.0
+spot_range = 3.944
+spot_angle = 180.0
+
+[node name="SpotLight3D4" type="SpotLight3D" parent="."]
+transform = Transform3D(0.607764, 0.014510615, -0.7939851, -0.7941177, 0.011105444, -0.60766256, 0, 0.9998331, 0.018272625, -0.05333066, 2.3467083, 3.116065)
+light_energy = 1.32
+light_indirect_energy = 0.0
+spot_range = 8.533
+spot_angle = 180.0
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

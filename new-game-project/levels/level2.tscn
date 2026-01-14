@@ -1,21 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://u5lll2hh3g74"]
+[gd_scene load_steps=12 format=3 uid="uid://u5lll2hh3g74"]
 
 [ext_resource type="Script" uid="uid://br4pp7jmyb8ce" path="res://levels/landing_pad.gd" id="1_p1d34"]
+[ext_resource type="PackedScene" uid="uid://b0rin0bha0jbr" path="res://levels/environment.tscn" id="1_qyb5k"]
 [ext_resource type="PackedScene" uid="uid://cxnhmgd6nak3d" path="res://Player/player.tscn" id="2_qyb5k"]
-
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_umreq"]
-sky_top_color = Color(0.35000002, 0.4908334, 1, 1)
-sky_horizon_color = Color(0.6963154, 0.7237737, 0.84206533, 1)
-ground_horizon_color = Color(0.6963154, 0.7237737, 0.84206533, 1)
-
-[sub_resource type="Sky" id="Sky_80vhd"]
-sky_material = SubResource("ProceduralSkyMaterial_umreq")
-
-[sub_resource type="Environment" id="Environment_hjsbj"]
-background_mode = 2
-sky = SubResource("Sky_80vhd")
-tonemap_mode = 2
-glow_enabled = true
+[ext_resource type="PackedScene" uid="uid://ct1jvy2hkdfc5" path="res://UI.tscn" id="4_py88r"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yy828"]
 albedo_color = Color(0.45, 0.285, 0, 1)
@@ -25,21 +13,43 @@ albedo_color = Color(0.58, 0.58, 0.58, 1)
 metallic = 1.0
 metallic_specular = 1.0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_umreq"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qyb5k"]
 albedo_color = Color(0, 1.7409402, 9.014493, 1)
+emission_enabled = true
+emission = Color(0, 1, 1, 1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_80vhd"]
-albedo_color = Color(1.5264326, 18.892157, 0, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_py88r"]
+albedo_color = Color(0, 13.506168, 0, 1)
+emission_enabled = true
+emission = Color(0, 1, 0, 1)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qyb5k"]
+sky_top_color = Color(0, 0, 0, 1)
+sky_horizon_color = Color(0, 0, 0, 1)
+ground_bottom_color = Color(0, 0, 0, 1)
+ground_horizon_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Sky" id="Sky_80vhd"]
+sky_material = SubResource("ProceduralSkyMaterial_qyb5k")
+
+[sub_resource type="Environment" id="Environment_py88r"]
+background_mode = 2
+background_energy_multiplier = 16.0
+sky = SubResource("Sky_80vhd")
+tonemap_mode = 2
+glow_enabled = true
+fog_light_color = Color(0.1728327, 0.17283267, 0.17283267, 1)
+fog_density = 0.0638
 
 [node name="level" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.45982784, 0.888008, 0, -0.888008, 0.45982784, 0, 12.767386, 4.9112964)
 light_color = Color(1, 0.90000004, 0, 1)
+light_energy = 0.0
 shadow_enabled = true
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_hjsbj")
+[node name="environment" parent="." instance=ExtResource("1_qyb5k")]
 
 [node name="floor" type="CSGBox3D" parent="." groups=["obstacle"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
@@ -57,18 +67,23 @@ material = SubResource("StandardMaterial3D_p1d34")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0.2, 0)
 use_collision = true
 size = Vector3(2, 0.5, 2)
-material = SubResource("StandardMaterial3D_umreq")
+material = SubResource("StandardMaterial3D_qyb5k")
 
 [node name="landingPad" type="CSGBox3D" parent="." groups=["goal"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0.2, 0)
 use_collision = true
 size = Vector3(2, 0.5, 2)
-material = SubResource("StandardMaterial3D_80vhd")
+material = SubResource("StandardMaterial3D_py88r")
 script = ExtResource("1_p1d34")
 file_path = "uid://curwr22ke4b8d"
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.9396926, 0.34202012, 0, -0.34202012, 0.9396926, 0, 5.3, 7.275)
-
 [node name="Player" parent="." instance=ExtResource("2_qyb5k")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0.8480234, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.9396927, 0.34202015, 0, -0.34202015, 0.9396927, 0, 6.0475254, 9.530711)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_py88r")
+
+[node name="UI" parent="." instance=ExtResource("4_py88r")]
