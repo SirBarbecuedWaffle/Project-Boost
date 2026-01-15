@@ -12,7 +12,11 @@ var transitioning:=false
 @onready var node_3d: Node3D = $Node3D
 @onready var spring_arm_3d: SpringArm3D = $camera_pivot/SpringArm3D
 @onready var pause_lab: Label = $Control/pauseLab
+@onready var club_location: Marker3D = $clubLocation
+@onready var golf_ball: MeshInstance3D = $Node3D/golfBall
+@onready var camera_3d: Camera3D = $camera_pivot/SpringArm3D/Camera3D
 var paused:=false
+var clubDistance:=30.0
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion && !paused:
 		_camera_pivot.rotation.x -= event.relative.y * mouse_sensitivity
@@ -24,6 +28,8 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	club_location.global_position.y=golf_ball.global_position.y
+	club_location.global_position.x=golf_ball.global_position.x+camera_3d.global_position.x*
 	if Input.is_action_just_pressed("esc"):
 		if paused:
 			paused=false
@@ -44,9 +50,10 @@ func _process(delta: float) -> void:
 		if spring_arm_3d.spring_length>2:
 			spring_arm_3d.spring_length-=0.1
 	if !transitioning:
-		if Input.is_action_just_pressed("boost"):
-			apply_central_force(_camera_pivot.global_basis.get_rotation_quaternion()*Vector3(0,0,-1)*launchForce*delta*1000)
-			print(linear_velocity.y)
+		if Input.is_action_pressed("boost"):
+			if clubDistance<100:
+				clubDistance+=0.5
+			apply_central_force(_camera_pivot.global_basis.get_rotation_quaternion()*Vector3(0,-2,-1)*launchForce*delta*4000)
 			
 		else:
 			if boost.playing:

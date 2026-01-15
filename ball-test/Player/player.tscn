@@ -32,6 +32,10 @@ max_contacts_reported = 10
 linear_damp = 1.0
 angular_damp = 3.0
 script = ExtResource("1_l8h54")
+launchForce = null
+turnSpeed = null
+mouse_sensitivity = null
+tilt_limit = null
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65354943, 0)
@@ -85,5 +89,7 @@ text = "PAUSED"
 label_settings = SubResource("LabelSettings_k53q1")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="clubLocation" type="Marker3D" parent="."]
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
